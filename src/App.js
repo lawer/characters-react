@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {Link, Route} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 import axios from 'axios';
 
 
@@ -10,8 +10,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route path="/" component={CharacterList}/>
-        <Route path="/characters/:id" component={CharacterDetail}/>
+        <Switch>
+          <Route exact path="/" component={CharacterList}/>
+          <Route path="/characters/:id/" component={CharacterDetail}/>
+        </Switch>
       </div>
     );
   }

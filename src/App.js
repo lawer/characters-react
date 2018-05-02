@@ -20,8 +20,11 @@ class App extends Component {
 }
 
 class CharacterList extends Component {
-  state = {
-    characters: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      characters: []
+    };
   }
 
   componentDidMount() {
@@ -86,10 +89,19 @@ class CharacterList extends Component {
 }
 
 class CharacterDetail extends Component {
+
   render() {
     return (
       <div className="container">
-        <h1>Character</h1>
+        <h1>{}</h1>
+
+        <img src="{}" alt="" />
+
+          <ul>
+            <li>Alive: {}</li>
+            <li>Culture: {}</li>
+            <li>House: {}</li>
+          </ul>
       </div>
     );
   }

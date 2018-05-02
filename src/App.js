@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './App.css';
 import {Link, Route, Switch} from "react-router-dom";
 import axios from 'axios';
 
@@ -89,19 +88,36 @@ class CharacterList extends Component {
 }
 
 class CharacterDetail extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      character: {
+        _id: props.match.params.id
+      }
+    };
+  }
+
+  componentDidMount() {
+    axios.get(`${urlApi}/characters/${this.state.character._id}`)
+      .then(res => {
+        const character = res.data[0];
+        this.setState({character});
+      })
+  }
 
   render() {
     return (
       <div className="container">
-        <h1>{}</h1>
+        <h1>{this.state.character.name}</h1>
 
-        <img src="{}" alt="" />
+        <img src={this.state.character.image} alt=""/>
 
-          <ul>
-            <li>Alive: {}</li>
-            <li>Culture: {}</li>
-            <li>House: {}</li>
-          </ul>
+        <ul>
+          <li>Alive: {this.state.character.alive}</li>
+          <li>Culture: {this.state.character.culture}</li>
+          <li>House: {this.state.character.house}</li>
+        </ul>
       </div>
     );
   }

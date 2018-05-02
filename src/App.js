@@ -41,50 +41,61 @@ class CharacterList extends Component {
 
         <Link to="/characters/add" className="add btn btn-primary">Add Character</Link>
 
-        <table className="table table-striped">
-          <thead className="thead-dark">
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Alive</th>
-            <th>Culture</th>
-            <th>House</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
+        <CharacterTable characters={this.state.characters}/>
 
-          <tbody>
-          {this.state.characters.map(
-            character =>
-              <tr>
-                <td className="align-middle">
-                  <Link to={"/characters/" + character._id}>
-                    <img src={character.image} alt="" className="img-fluid"/>
-                  </Link>
-                </td>
-                <td className="align-middle">
-                  <Link to={"/characters/" + character._id}>
-                    {character.name}
-                  </Link>
-                </td>
-                <td className="align-middle text-center">
-                  {character.alive}
-                </td>
-                <td className="align-middle">
-                  {character.culture}
-                </td>
-                <td className="align-middle">
-                  {character.house}
-                </td>
-                <td>
-                </td>
-              </tr>
-          )}
-          </tbody>
-        </table>
       </div>
     );
   }
+}
+
+class CharacterTable extends Component {
+
+  render() {
+    return (
+      <table className="table table-striped">
+        <thead className="thead-dark">
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Alive</th>
+          <th>Culture</th>
+          <th>House</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {this.props.characters.map(
+          character =>
+            <tr>
+              <td className="align-middle">
+                <Link to={"/characters/" + character._id}>
+                  <img src={character.image} alt="" className="img-fluid"/>
+                </Link>
+              </td>
+              <td className="align-middle">
+                <Link to={"/characters/" + character._id}>
+                  {character.name}
+                </Link>
+              </td>
+              <td className="align-middle text-center">
+                {character.alive}
+              </td>
+              <td className="align-middle">
+                {character.culture}
+              </td>
+              <td className="align-middle">
+                {character.house}
+              </td>
+              <td>
+              </td>
+            </tr>
+        )}
+        </tbody>
+      </table>
+    );
+  }
+
 }
 
 class CharacterDetail extends Component {
@@ -92,14 +103,12 @@ class CharacterDetail extends Component {
     super(props);
 
     this.state = {
-      character: {
-        _id: props.match.params.id
-      }
+      character: {}
     };
   }
 
   componentDidMount() {
-    axios.get(`${urlApi}/characters/${this.state.character._id}`)
+    axios.get(`${urlApi}/characters/${this.props.match.params.id}`)
       .then(res => {
         const character = res.data[0];
         this.setState({character});

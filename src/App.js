@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Form, Text} from "react-form";
 
 
-var urlApi = "https://secure-cliffs-32652.herokuapp.com/api"
+var urlApi = "http://localhost:3000/api"
 
 class App extends Component {
   render() {
@@ -13,7 +13,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={CharacterList}/>
           <Route exact path="/characters/add/" component={AddCharacter}/>
-          <Route path="/characters/:id/" component={CharacterDetail}/>
+          <Route exact path="/characters/:id/" component={CharacterDetail}/>
+          <Route exact path="/characters/:id/delete" component={DeleteCharacter}/>
         </Switch>
       </div>
     );
@@ -96,6 +97,8 @@ function CharacterRow({character}) {
         {character.house}
       </td>
       <td>
+        <Link to={"/characters/" + character._id + "/delete"} className="btn btn-danger">Delete</Link>
+        <Link to={"/characters/" + character._id + "/modify"} className="btn btn-warning">Modify</Link>
       </td>
     </tr>
   )
@@ -150,7 +153,7 @@ class AddCharacter extends Component {
     axios.post(`${urlApi}/characters`, character)
       .then(res => {
         this.props.history.push("/")
-      })
+      });
   }
 
   render() {
@@ -166,7 +169,7 @@ class AddCharacter extends Component {
               <br/>
 
               <label htmlFor="image">Image</label>
-              <Text  field="image" id="image"/>
+              <Text field="image" id="image"/>
               <br/>
 
               <label htmlFor="alive">Alive</label>
@@ -187,6 +190,23 @@ class AddCharacter extends Component {
             </form>
           )}
         </Form>
+      </div>
+    );
+  }
+}
+
+class DeleteCharacter extends Component {
+
+  componentDidMount() {
+    axios.delete(`${urlApi}/characters/${this.props.match.params.id}`)
+      .then(res => {
+        this.props.history.push("/")
+      })
+  }
+
+  render() {
+    return (
+      <div className="container">
       </div>
     );
   }

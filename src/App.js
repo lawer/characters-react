@@ -200,7 +200,11 @@ class DeleteCharacter extends Component {
   componentDidMount() {
     axios.delete(`${urlApi}/characters/${this.props.match.params.id}`)
       .then(res => {
+        console.log(res)
         this.props.history.push("/")
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 

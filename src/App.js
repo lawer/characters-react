@@ -242,7 +242,7 @@ class DeleteCharacter extends Component {
 
   componentDidMount() {
     axios.delete(`${urlApi}/characters/${this.props.match.params.id}`, {
-      //headers: { Authorization: localStorage.getItem("token") }
+      headers: { Authorization: localStorage.getItem("token") }
     })
       .then(res => {
         console.log(res);

@@ -30,6 +30,8 @@ class App extends Component {
 
         <Switch>
           <Route exact path="/" component={CharacterList}/>
+          <Route exact path="/register" component={Login}/>
+          <Route exact path="/login" component={Register}/>
           <Route exact path="/characters/add/" component={AddCharacter}/>
           <Route exact path="/characters/:id/" component={CharacterDetail}/>
           <Route exact path="/characters/:id/delete" component={DeleteCharacter}/>
@@ -345,6 +347,18 @@ class ModifyCharacter extends Component {
       </div>
     );
   }
+}
+
+class Register extends Component{
+  render(){
+    return
+  };
+}
+
+class Login extends Component{
+  render(){
+    return
+  };
 }
 
 export default App;

@@ -3,7 +3,6 @@ import {Link, Route, Switch} from "react-router-dom";
 import axios from 'axios';
 import {Form, Text} from "react-form";
 
-
 const urlApi = "http://localhost:3000/api";
 
 class App extends Component {
@@ -15,6 +14,7 @@ class App extends Component {
           <Route exact path="/characters/add/" component={AddCharacter}/>
           <Route exact path="/characters/:id/" component={CharacterDetail}/>
           <Route exact path="/characters/:id/delete" component={DeleteCharacter}/>
+          <Route exact path="/characters/:id/modify" component={ModifyCharacter}/>
         </Switch>
       </div>
     );
@@ -211,6 +211,97 @@ class DeleteCharacter extends Component {
   render() {
     return (
       <div className="container">
+      </div>
+    );
+  }
+}
+
+class ModifyCharacter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      character: {}
+    };
+  }
+
+  componentDidMount() {
+    axios.get(`${urlApi}/characters/${this.props.match.params.id}`)
+      .then(res => {
+        const character = res.data[0];
+        this.setState(character);
+      })
+  }
+
+  updateInputValue(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+
+    axios.post(`${urlApi}/characters/${this.state._id}`, this.state)
+      .then(res => {
+        this.props.history.push("/")
+      });
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h1>Modify Character</h1>
+
+        <form onSubmit={character => this.submitForm(character)}>
+          <label htmlFor="name">Name</label>
+          <input name="name"
+                 id="name"
+                 value={this.state.name}
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
+
+          <label htmlFor="image">Image</label>
+          <input name="image"
+                 id="image"
+                 value={this.state.image}
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
+
+          <label htmlFor="alive">Alive</label>
+          <input name="alive"
+                 id="alive"
+                 value={this.state.alive}
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
+
+          <label htmlFor="culture">Culture</label>
+          <input name="culture"
+                 id="culture"
+                 value={this.state.culture}
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
+
+          <label htmlFor="house">House</label>
+          <input name="house"
+                 id="house"
+                 value={this.state.house}
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
       </div>
     );
   }

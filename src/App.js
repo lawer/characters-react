@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Route, Switch} from "react-router-dom";
 import axios from 'axios';
-import {Form, Text} from "react-form";
 
 const urlApi = "http://localhost:3000/api";
 
@@ -147,10 +146,20 @@ class AddCharacter extends Component {
     };
   }
 
-  addCharacter(character) {
-    this.setState({character});
+  updateInputValue(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
 
-    axios.post(`${urlApi}/characters`, character)
+    this.setState({
+      [name]: value
+    });
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+
+    axios.post(`${urlApi}/characters/`, this.state)
       .then(res => {
         this.props.history.push("/")
       });
@@ -159,37 +168,48 @@ class AddCharacter extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Add Character</h1>
+        <h1>Modify Character</h1>
 
-        <Form onSubmit={character => this.addCharacter(character)}>
-          {formApi => (
-            <form onSubmit={formApi.submitForm} id="form1" className="mb-4">
-              <label htmlFor="name">Name</label>
-              <Text field="name" id="name"/>
-              <br/>
+        <form onSubmit={character => this.submitForm(character)}>
+          <label htmlFor="name">Name</label>
+          <input name="name"
+                 id="name"
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
 
-              <label htmlFor="image">Image</label>
-              <Text field="image" id="image"/>
-              <br/>
+          <label htmlFor="image">Image</label>
+          <input name="image"
+                 id="image"
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
 
-              <label htmlFor="alive">Alive</label>
-              <Text field="alive" id="alive"/>
-              <br/>
+          <label htmlFor="alive">Alive</label>
+          <input name="alive"
+                 id="alive"
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
 
-              <label htmlFor="culture">Culture</label>
-              <Text field="culture" id="culture"/>
-              <br/>
+          <label htmlFor="culture">Culture</label>
+          <input name="culture"
+                 id="culture"
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
 
-              <label htmlFor="house">House</label>
-              <Text field="house" id="house"/>
-              <br/>
+          <label htmlFor="house">House</label>
+          <input name="house"
+                 id="house"
+                 onChange={data => this.updateInputValue(data)}
+          />
+          <br/>
 
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
-          )}
-        </Form>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
       </div>
     );
   }

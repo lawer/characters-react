@@ -88,7 +88,7 @@ function CharacterTable(props) {
 
       <tbody>
       {props.characters.map(
-        character => <CharacterRow character={character}/>
+        character => <CharacterRow character={character} key={character._id}/>
       )}
       </tbody>
     </table>

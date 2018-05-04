@@ -6,7 +6,6 @@ const urlApi = "http://localhost:3000/api";
 
 class App extends Component {
 
-
   render() {
     return (
       <div className="App">
@@ -242,7 +241,9 @@ class AddCharacter extends Component {
 class DeleteCharacter extends Component {
 
   componentDidMount() {
-    axios.delete(`${urlApi}/characters/${this.props.match.params.id}`)
+    axios.delete(`${urlApi}/characters/${this.props.match.params.id}`, {
+      //headers: { Authorization: localStorage.getItem("token") }
+    })
       .then(res => {
         console.log(res);
         this.props.history.push("/")

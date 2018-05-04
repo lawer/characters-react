@@ -5,6 +5,8 @@ import axios from 'axios';
 const urlApi = "http://localhost:3000/api";
 
 class App extends Component {
+
+
   render() {
     return (
       <div className="App">
@@ -14,7 +16,7 @@ class App extends Component {
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                   aria-controls="navbarNav"
                   aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon"/>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
@@ -30,8 +32,8 @@ class App extends Component {
 
         <Switch>
           <Route exact path="/" component={CharacterList}/>
-          <Route exact path="/register" component={Login}/>
-          <Route exact path="/login" component={Register}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/login" component={Login}/>
           <Route exact path="/characters/add/" component={AddCharacter}/>
           <Route exact path="/characters/:id/" component={CharacterDetail}/>
           <Route exact path="/characters/:id/delete" component={DeleteCharacter}/>
@@ -349,15 +351,62 @@ class ModifyCharacter extends Component {
   }
 }
 
-class Register extends Component{
-  render(){
+class Register extends Component {
+  render() {
     return
   };
 }
 
-class Login extends Component{
-  render(){
-    return
+class Login extends Component {
+  updateInputValue(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+
+    axios.post(`${urlApi}/auth/login/`, this.state)
+      .then(res => {
+
+        const token = res.data["token"];
+        localStorage.setItem("token", token);
+
+        this.props.history.push("/")
+      });
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h1>Login</h1>
+
+        <form onSubmit={data => this.submitForm(data)}>
+          <label htmlFor="name">username</label>
+          <input type="text"
+                 name="username"
+                 id="username"
+                 onChange={data => this.updateInputValue(data)}/>
+          <br/>
+
+          <label htmlFor="image">password</label>
+          <input type="text"
+                 name="password"
+                 id="password"
+                 onChange={data => this.updateInputValue(data)}/>
+          <br/>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    )
   };
 }
 

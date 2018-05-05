@@ -9,25 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <Link to="/" className="navbar-brand">Characters</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                  aria-controls="navbarNav"
-                  aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"/>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to="/register" className="nav-link">Register</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">Login</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <NavBar/>
 
         <Switch>
           <Route exact path="/" component={CharacterList}/>
@@ -42,6 +24,30 @@ class App extends Component {
     );
   }
 }
+
+function NavBar() {
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+      <Link to="/" className="navbar-brand">Characters</Link>
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"/>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link to="/register" className="nav-link">Register</Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/login" className="nav-link">Login</Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  )
+}
+
 
 class CharacterList extends Component {
   constructor(props) {
@@ -242,7 +248,7 @@ class DeleteCharacter extends Component {
 
   componentDidMount() {
     axios.delete(`${urlApi}/characters/${this.props.match.params.id}`, {
-      headers: { Authorization: localStorage.getItem("token") }
+      headers: {Authorization: localStorage.getItem("token")}
     })
       .then(res => {
         console.log(res);
